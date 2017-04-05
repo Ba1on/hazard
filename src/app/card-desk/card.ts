@@ -3,4 +3,5 @@ export class Player {
   url: string;
   status: string;
   type: string;
+  position: number;
 }

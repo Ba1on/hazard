@@ -10,13 +10,16 @@ import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
-import { PlayerService } from './player/player.service';
+import { CardDeskComponent } from './card-desk/card-desk.component';
 
+import { PlayerService } from './player/player.service';
+import { PlayService } from './play.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PlayerComponent
+    PlayerComponent,
+    CardDeskComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,7 @@ import { PlayerService } from './player/player.service';
     InMemoryWebApiModule.forRoot(InMemoryDataService),
     AppRoutingModule
   ],
-  providers: [PlayerService],
+  providers: [PlayerService, PlayService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

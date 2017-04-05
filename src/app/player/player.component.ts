@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Player } from './player'
 import { PlayerService } from './player.service';
+import { PlayService } from '../play.service'
 
 
 @Component({
@@ -12,7 +14,10 @@ import { PlayerService } from './player.service';
 export class PlayerComponent {
   players: Player[] = [];
 
-  constructor(private playerService: PlayerService) { }
+  constructor(private playerService: PlayerService,
+              private playService: PlayService,
+              private router: Router
+              ) { }
 
   getPlayers(): void {
     this.playerService
@@ -41,6 +46,15 @@ export class PlayerComponent {
 
   ngOnInit(): void {
     this.getPlayers();
+  }
+
+  startGame(): void {
+    if (this.players.length < 3 || this.players.length > 8) {
+      alert('The number of players must be more than three and less than eight!')
+    } else {
+      // play
+      this.router.navigate(['/game']);
+    }
   }
 
 }
