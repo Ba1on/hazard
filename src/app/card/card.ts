@@ -1,4 +1,4 @@
-export class Player {
+export class Card {
   id: number;
   url: string;
   status: string;

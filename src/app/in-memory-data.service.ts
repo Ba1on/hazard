@@ -8,16 +8,16 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     let cards = [
-      {id: 1, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0},
-      {id: 2, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0},
-      {id: 3, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0},
-      {id: 4, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0},
-      {id: 5, url: 'http://', status: 'in-the-desk', type: 'red', position: 0},
-      {id: 6, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0},
-      {id: 7, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0},
-      {id: 8, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0},
-      {id: 9, url: 'http://', status: 'in-the-desk', type: 'red', position: 0},
-      {id: 10, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0}
+      {id: 1, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, cardIds: []},
+      {id: 2, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, cardIds: []},
+      {id: 3, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, cardIds: []},
+      {id: 4, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, cardIds: []},
+      {id: 5, url: 'http://', status: 'in-the-desk', type: 'red', position: 0, cardIds: []},
+      {id: 6, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, cardIds: []},
+      {id: 7, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, cardIds: []},
+      {id: 8, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, cardIds: []},
+      {id: 9, url: 'http://', status: 'in-the-desk', type: 'red', position: 0, cardIds: []},
+      {id: 10, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, cardIds: []}
     ];
     return { players, cards };
   }
