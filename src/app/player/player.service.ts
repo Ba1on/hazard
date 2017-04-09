@@ -36,9 +36,9 @@ export class PlayerService {
       .catch(this.handleError);
   }
 
-  create(player: Player): Promise<Player> {
+  create(name: string): Promise<Player> {
     return this.http
-      .post(this.playersUrl, JSON.stringify({player}), {headers: this.headers})
+      .post(this.playersUrl, JSON.stringify({name: name}), {headers: this.headers})
       .toPromise()
       .then(res => res.json().data as Player)
       .catch(this.handleError);

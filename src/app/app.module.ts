@@ -15,6 +15,8 @@ import { DeskComponent } from './desk/desk.component';
 import { PlayerService } from './player/player.service';
 import { PlayService } from './play.service';
 import { CardService } from './card/card.service';
+import { DeskService } from './desk/desk.service';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +31,7 @@ import { CardService } from './card/card.service';
     InMemoryWebApiModule.forRoot(InMemoryDataService),
     AppRoutingModule
   ],
-  providers: [PlayerService, PlayService, CardService],
+  providers: [PlayerService, PlayService, CardService, DeskService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

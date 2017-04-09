@@ -1,1 +1,33 @@
 <div>I want to play a game</div>
+<ul class="players">
+  <li *ngFor="let player of players">
+    <span>{{player.name}}</span>
+  </li>
+</ul>
+
+<ul class="players">
+  <li *ngFor="let card of cards">
+    <span>{{card.id}}</span>
+    <span>{{card.status}}</span>
+  </li>
+</ul>
+
+
+<div *ngIf="desk">
+  {{desk.id}}
+  <ul class="players">
+    <li *ngFor="let card of desk.cards">
+      <span>{{card.id}}</span>
+      <span>{{card.status}}</span>
+    </li>
+  </ul>
+</div>
+<div *ngIf="current_player">
+  {{current_player.name}}
+  <ul class="cards">
+    <li *ngFor="let card of current_player.cards">
+      <span>{{card.id}}</span>
+      <div class="card" (click)="chooseCard(card)"></div>
+    </li>
+  </ul>
+</div>
