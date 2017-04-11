@@ -30,7 +30,8 @@ export class DeskComponent {
 
   createDesk(userId: number): void {
     if (!userId) { return; }
-    this.deskService.create(userId)
+    console.log(this.cards)
+    this.deskService.create(userId, Array(3).fill(_.last(this.cards)))
   }
 
   passCards(players, cards): void {
@@ -74,7 +75,12 @@ export class DeskComponent {
         .getDesks()
         .then(desks => { 
           this.desks = desks;
+          console.log(desks)
         })
+  }
+
+  findDesk(desks, userId): void {
+    return _.find(desks, {userId: userId})
   }
 
   print(cards): void{

@@ -28,9 +28,9 @@ export class DeskService {
       .catch(this.handleError);
   }
 
-  create(userId: number): Promise<Desk> {
+  create(userId: number, cards): Promise<Desk> {
     return this.http
-      .post(this.desksUrl, JSON.stringify({userId: userId}), {headers: this.headers})
+      .post(this.desksUrl, JSON.stringify({userId: userId, cards: cards}), {headers: this.headers})
       .toPromise()
       .then(res => res.json().data as Desk)
       .catch(this.handleError);

@@ -21,7 +21,7 @@ export class InMemoryDataService implements InMemoryDbService {
       {id: 11, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0},
       {id: 12, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0},
       {id: 13, url: 'http://', status: 'in-the-desk', type: 'red', position: 0},
-      {id: 14, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0}
+      {id: 14, url: 'http://', status: 'empty', type: 'empty', position: 0}
     ];
 
   let desks = [];
