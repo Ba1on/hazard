@@ -4,4 +4,5 @@ export class Card {
   status: string;
   type: string;
   position: number;
+  userId: number;
 }

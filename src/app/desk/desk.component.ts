@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import _ from "lodash";
 
 import { Desk } from './desk';
@@ -25,21 +25,26 @@ export class DeskComponent {
   constructor(private deskService: DeskService,
               private cardService: CardService,
               private playerService: PlayerService,
-              private router: Router
               ) { }
 
-  createDesk(userId: number): void {
+  updateDesk(userId: number): void {
     if (!userId) { return; }
-    console.log(this.cards)
-    this.deskService.create(userId, Array(3).fill(_.last(this.cards)))
+    // this.deskService.update()
+  }
+
+  createDesks(players): void {
+    players.forEach((player) => {
+      this.deskService.create(player.id, Array(3))
+    })
   }
 
   passCards(players, cards): void {
     players.forEach((player) => {
       cards = _.filter(cards, {status: 'in-the-desk'})
-      player.cards = _.sampleSize(cards, 4)
+      player.cards = player.cards.concat(_.sampleSize(cards, 3-player.cards.length))
       player.cards.forEach((card) => {
         card.status = 'on-hands';
+        card.userId = player.id;
         this.cardService.update(card)
       })
     })
@@ -48,8 +53,6 @@ export class DeskComponent {
   setCurrent(players): void {
     this.judge = _.sample(players);
     this.current_player = this.judge;
-    this.createDesk(this.judge.id);
-    this.getDesks();
   }
 
   getPlayers(): void {
@@ -57,7 +60,10 @@ export class DeskComponent {
         .getPlayers()
         .then(players => { 
           this.players = players;
-          this.setCurrent(players);
+          this.setCurrent(this.players);
+          this.createDesks(this.players);
+          this.passCards(this.players, this.cards);
+          this.getDesks();
         })
   }
 
@@ -66,7 +72,7 @@ export class DeskComponent {
         .getCards()
         .then(cards => {
           this.cards = cards;
-          this.passCards(this.players, this.cards)
+          this.getPlayers()
         })
   }
 
@@ -75,7 +81,6 @@ export class DeskComponent {
         .getDesks()
         .then(desks => { 
           this.desks = desks;
-          console.log(desks)
         })
   }
 
@@ -83,12 +88,7 @@ export class DeskComponent {
     return _.find(desks, {userId: userId})
   }
 
-  print(cards): void{
-    console.log(cards)
-  }
-
   ngOnInit(): void {
-    this.getPlayers();
     this.getCards();
   }
 
@@ -106,10 +106,37 @@ export class DeskComponent {
       console.log(this.current_player)
       if (true){}
     }else {
-      this.createDesk(this.current_player.id);
       this.next(this.players, this.current_player)
       console.log('usual')
       console.log(this.current_player)
     }
   }
 }
+
+
+
+
+
+// class RepeatExample {
+//   public many: Array<string> = ['The', 'possibilities', 'are', 'endless!'];
+//   public many2: Array<string> = ['Explore', 'them'];
+
+//   constructor(private dragulaService: DragulaService) {
+//     dragulaService.dropModel.subscribe((value) => {
+//       this.onDropModel(value.slice(1));
+//     });
+//     dragulaService.removeModel.subscribe((value) => {
+//       this.onRemoveModel(value.slice(1));
+//     });
+//   }
+
+//   private onDropModel(args) {
+//     let [el, target, source] = args;
+//     // do something else
+//   }
+
+//   private onRemoveModel(args) {
+//     let [el, source] = args;
+//     // do something else
+//   }
+// }
