@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { DragulaModule } from 'ng2-dragula/ng2-dragula'
+import { DragulaModule } from 'ng2-dragula/ng2-dragula';
+import { CoolStorageModule } from 'angular2-cool-storage';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -11,19 +12,17 @@ import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
-import { DeskComponent } from './desk/desk.component';
+import { GameComponent } from './game/game.component';
 
 import { PlayerService } from './player/player.service';
-import { PlayService } from './play.service';
 import { CardService } from './card/card.service';
-import { DeskService } from './desk/desk.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     PlayerComponent,
-    DeskComponent
+    GameComponent
   ],
   imports: [
     BrowserModule,
@@ -31,9 +30,10 @@ import { DeskService } from './desk/desk.service';
     HttpModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService),
     AppRoutingModule,
-    DragulaModule
+    DragulaModule,
+    CoolStorageModule
   ],
-  providers: [PlayerService, PlayService, CardService, DeskService],
+  providers: [PlayerService, CardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

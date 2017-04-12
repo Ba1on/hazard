@@ -2,41 +2,26 @@ import { Component } from '@angular/core';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import _ from "lodash";
 
-import { Desk } from './desk';
 import { Card } from '../card/card';
 import { Player } from '../player/player';
-import { DeskService } from './desk.service';
 import { CardService } from '../card/card.service';
 import { PlayerService } from '../player/player.service';
 
 @Component({
   selector: 'game',
-  templateUrl: './desk.component.html',
-  styleUrls: ['./desk.component.sass']
+  templateUrl: './game.component.html',
+  styleUrls: ['./game.component.sass']
 })
-export class DeskComponent {
+export class GameComponent {
   cards: Card[] = [];
-  desks: Desk[] = [];
-  special: Desk;
   players: Player[] = [];
+  mainPanel: Card;
   judge: Player;
   current_player: Player;
 
-  constructor(private deskService: DeskService,
-              private cardService: CardService,
+  constructor(private cardService: CardService,
               private playerService: PlayerService,
               ) { }
-
-  updateDesk(userId: number): void {
-    if (!userId) { return; }
-    // this.deskService.update()
-  }
-
-  createDesks(players): void {
-    players.forEach((player) => {
-      this.deskService.create(player.id, Array(3))
-    })
-  }
 
   passCards(players, cards): void {
     players.forEach((player) => {
@@ -61,10 +46,16 @@ export class DeskComponent {
         .then(players => { 
           this.players = players;
           this.setCurrent(this.players);
-          this.createDesks(this.players);
           this.passCards(this.players, this.cards);
-          this.getDesks();
+
         })
+  }
+
+  createMainPanel(cards): void {
+    cards = _.filter(cards, {status: 'in-the-desk'})
+    this.mainPanel = _.sample(cards);
+    this.mainPanel.status = 'in-game';
+    this.cardService.update(this.mainPanel).then((res) => console.log(this.mainPanel.id))
   }
 
   getCards(): void {
@@ -72,21 +63,12 @@ export class DeskComponent {
         .getCards()
         .then(cards => {
           this.cards = cards;
-          this.getPlayers()
+          this.getPlayers();
+                              this.createMainPanel(this.cards);
+
         })
   }
 
-  getDesks(): void {
-    this.deskService
-        .getDesks()
-        .then(desks => { 
-          this.desks = desks;
-        })
-  }
-
-  findDesk(desks, userId): void {
-    return _.find(desks, {userId: userId})
-  }
 
   ngOnInit(): void {
     this.getCards();

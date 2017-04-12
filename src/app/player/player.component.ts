@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 
 import { Player } from './player'
 import { PlayerService } from './player.service';
-import { PlayService } from '../play.service'
 
 @Component({
   selector: 'players',
@@ -12,9 +11,7 @@ import { PlayService } from '../play.service'
 export class PlayerComponent {
   players: Player[] = [];
 
-  constructor(private playerService: PlayerService,
-              private playService: PlayService,
-              ) { }
+  constructor(private playerService: PlayerService) { }
 
   getPlayers(): void {
     this.playerService

@@ -12,19 +12,11 @@
   </li>
 </ul>
 
-<div>
-  <ul class="players">
-    <li *ngFor="let desk of desks">
-      <span>{{desk.id}}</span>
-      <span>{{desk.cards}}</span>
-      <span *ngIf='desk.userId'>{{desk.userId}}</span>
-    </li>
-  </ul>
-</div>
-
-<div>
+<div *ngIf="mainPanel">
   <div #leftPanel class="card-panel container" [dragula]='"bag-one"'></div>
-  <div #mainPanel class="card-panel"></div>
+  <div #mainPanel class="card-panel">
+    <div class="card">{{mainPanel.id}}</div>
+  </div>
   <div #rightPanel class="card-panel" [dragula]='"bag-one"'></div>
 </div>
 
