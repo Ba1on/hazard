@@ -16,6 +16,7 @@ import { GameComponent } from './game/game.component';
 
 import { PlayerService } from './player/player.service';
 import { CardService } from './card/card.service';
+import { GameService } from './game/game.service';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import { CardService } from './card/card.service';
     DragulaModule,
     CoolStorageModule
   ],
-  providers: [PlayerService, CardService],
+  providers: [PlayerService, CardService, GameService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

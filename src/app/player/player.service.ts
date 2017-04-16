@@ -1,60 +1,53 @@
 import { Injectable }    from '@angular/core';
-import { Headers, Http } from '@angular/http';
-
-import 'rxjs/add/operator/toPromise';
+import { CoolLocalStorage } from 'angular2-cool-storage';
+import _ from "lodash";
 
 import { Player } from './player';
 
 @Injectable()
 export class PlayerService {
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private playersUrl = 'api/players';  // URL to web api
+  constructor(private localStorage: CoolLocalStorage) { }
 
-  constructor(private http: Http) { }
-
-  getPlayers(): Promise<Player[]> {
-    return this.http.get(this.playersUrl)
-               .toPromise()
-               .then(response => response.json().data as Player[])
-               .catch(this.handleError);
+  getPlayers = () => {
+    return this.localStorage.tryGetObject('players')
   }
 
-  getPlayer(id: number): Promise<Player> {
-    const url = `${this.playersUrl}/${id}`;
-    return this.http.get(url)
-      .toPromise()
-      .then(response => response.json().data as Player)
-      .catch(this.handleError);
+  getPlayer = (id: number) => {
+    let players = this.getPlayers();
+    if (Array.isArray(players)) return _.find(players, function(player) { return player.id == id; });
   }
 
-  delete(id: number): Promise<void> {
-    const url = `${this.playersUrl}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
-      .toPromise()
-      .then(() => null)
-      .catch(this.handleError);
+  delete = (id: number) => {
+    let players = this.getPlayers()
+    if (Array.isArray(players)){
+      players = players.filter((player) => { return player.id !== id; })
+      this.localStorage.setObject('players', players)
+    }
   }
 
-  create(name: string): Promise<Player> {
-    return this.http
-      .post(this.playersUrl, JSON.stringify({name: name, cards: []}), {headers: this.headers})
-      .toPromise()
-      .then(res => res.json().data as Player)
-      .catch(this.handleError);
+  create = (userName: string) => {
+    let players = this.getPlayers()
+    let player = new Player({id: this.nextId(players), name: userName, isJudge: false, points: 0, cards: []});
+    if (Array.isArray(players)){
+      players.push(player)
+    }
+    this.localStorage.setObject('players', players)
   }
 
-  update(player: Player): Promise<Player> {
-    const url = `${this.playersUrl}/${player.id}`;
-    return this.http
-      .put(url, JSON.stringify(player), {headers: this.headers})
-      .toPromise()
-      .then(() => player)
-      .catch(this.handleError);
+  nextId = (players) => {
+    if (players.lendth > 0){
+      return _.last(players).id + 1
+    }else{
+      return 1
+    }
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
+  update = (player: Player) => {
+    let players = this.getPlayers()
+    let updatePlayer = this.getPlayer(player.id)
+    players = _.pull(players, updatePlayer)
+    if (Array.isArray(players)) players.push(player);
+    this.localStorage.setObject('players', players)
   }
 }

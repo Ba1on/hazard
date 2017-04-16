@@ -21,7 +21,18 @@ export class InMemoryDataService implements InMemoryDbService {
       {id: 11, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, userId: null},
       {id: 12, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, userId: null},
       {id: 13, url: 'http://', status: 'in-the-desk', type: 'red', position: 0, userId: null},
-      {id: 14, url: 'http://', status: 'empty', type: 'empty', position: 0, userId: null}
+      {id: 14, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, userId: null},
+      {id: 15, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, userId: null},
+      {id: 16, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, userId: null},
+      {id: 17, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, userId: null},
+      {id: 18, url: 'http://', status: 'in-the-desk', type: 'red', position: 0, userId: null},
+      {id: 19, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, userId: null},
+      {id: 20, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, userId: null},
+      {id: 21, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, userId: null},
+      {id: 22, url: 'http://', status: 'in-the-desk', type: 'usual', position: 0, userId: null},
+      {id: 23, url: 'http://', status: 'in-the-desk', type: 'red', position: 0, userId: null},
+      {id: 24, url: 'http://', status: 'empty', type: 'empty', position: 0, userId: null}
+
     ];
 
   let desks = [];

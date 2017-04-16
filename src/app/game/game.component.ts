@@ -6,6 +6,7 @@ import { Card } from '../card/card';
 import { Player } from '../player/player';
 import { CardService } from '../card/card.service';
 import { PlayerService } from '../player/player.service';
+import { GameService } from './game.service';
 
 @Component({
   selector: 'game',
@@ -13,27 +14,16 @@ import { PlayerService } from '../player/player.service';
   styleUrls: ['./game.component.sass']
 })
 export class GameComponent {
-  cards: Card[] = [];
-  players: Player[] = [];
+  cards: {};
+  players: {};
   mainPanel: Card;
   judge: Player;
   current_player: Player;
 
   constructor(private cardService: CardService,
               private playerService: PlayerService,
+              private gameService: GameService
               ) { }
-
-  passCards(players, cards): void {
-    players.forEach((player) => {
-      cards = _.filter(cards, {status: 'in-the-desk'})
-      player.cards = player.cards.concat(_.sampleSize(cards, 3-player.cards.length))
-      player.cards.forEach((card) => {
-        card.status = 'on-hands';
-        card.userId = player.id;
-        this.cardService.update(card)
-      })
-    })
-  }
 
   setCurrent(players): void {
     this.judge = _.sample(players);
@@ -41,45 +31,26 @@ export class GameComponent {
   }
 
   getPlayers(): void {
-    this.playerService
-        .getPlayers()
-        .then(players => { 
-          this.players = players;
-          this.setCurrent(this.players);
-          this.passCards(this.players, this.cards);
-
-        })
+    this.players = this.playerService.getPlayers();
+    this.setCurrent(this.players);
   }
 
   createMainPanel(cards): void {
     cards = _.filter(cards, {status: 'in-the-desk'})
     this.mainPanel = _.sample(cards);
     this.mainPanel.status = 'in-game';
-    this.cardService.update(this.mainPanel).then((res) => console.log(this.mainPanel.id))
+    this.cardService.update(this.mainPanel)
   }
 
   getCards(): void {
-    this.cardService
-        .getCards()
-        .then(cards => {
-          this.cards = cards;
-          this.getPlayers();
-                              this.createMainPanel(this.cards);
-
-        })
+    this.cards = this.cardService.getCards()
+    this.getPlayers();
+    this.createMainPanel(this.cards);
   }
 
 
   ngOnInit(): void {
     this.getCards();
-  }
-
-  next(myArray, item): void {
-    if (_.last(myArray) == item){ 
-      return _.first(myArray)
-    }else {
-      return _.find(myArray, {id: item.id + 1})
-    }
   }
 
   chooseCard(player: Player): void {
@@ -88,7 +59,7 @@ export class GameComponent {
       console.log(this.current_player)
       if (true){}
     }else {
-      this.next(this.players, this.current_player)
+      this.current_player = this.gameService.next(this.players, this.current_player)
       console.log('usual')
       console.log(this.current_player)
     }

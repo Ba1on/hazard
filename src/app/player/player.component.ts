@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import _ from "lodash";
 
 import { Player } from './player'
 import { PlayerService } from './player.service';
@@ -14,28 +15,23 @@ export class PlayerComponent {
   constructor(private playerService: PlayerService) { }
 
   getPlayers(): void {
-    this.playerService
-        .getPlayers()
-        .then(players => this.players = players);
+    let players = this.playerService.getPlayers();
+    if (Array.isArray(players)){
+      this.players = players;
+    }
+    
   }
 
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
-    this.playerService.create(name)
-      .then(player => {
-        this.players.push(player);
-      }
-    );
+    this.playerService.create(name);
+    this.getPlayers()
   }
 
   delete(player: Player): void {
-    this.playerService
-      .delete(player.id)
-      .then(() => {
-        this.players = this.players.filter(h => h !== player);
-      }
-    );
+    this.playerService.delete(player.id)
+    this.players = _.pull(this.players, '').filter(h => h !== player);
   }
 
   ngOnInit(): void {

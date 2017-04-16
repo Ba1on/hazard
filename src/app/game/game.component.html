@@ -13,11 +13,11 @@
 </ul>
 
 <div *ngIf="mainPanel">
-  <div #leftPanel class="card-panel container" [dragula]='"bag-one"'></div>
-  <div #mainPanel class="card-panel">
+  <div class="card-panel container" [dragula]='"bag-one"'></div>
+  <div class="card-panel">
     <div class="card">{{mainPanel.id}}</div>
   </div>
-  <div #rightPanel class="card-panel" [dragula]='"bag-one"'></div>
+  <div class="card-panel" [dragula]='"bag-one"'></div>
 </div>
 
 <div *ngIf="current_player">
