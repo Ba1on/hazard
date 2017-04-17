@@ -36,17 +36,17 @@ export class PlayerService {
   }
 
   nextId = (players) => {
-    if (players.lendth > 0){
-      return _.last(players).id + 1
-    }else{
+    if (players.length == 0){
       return 1
+    }else{
+      return _.last(players).id + 1
     }
   }
 
   update = (player: Player) => {
     let players = this.getPlayers()
     let updatePlayer = this.getPlayer(player.id)
-    players = _.pull(players, updatePlayer)
+    if (Array.isArray(players)) players = players.filter((updatedPlayer) => { return player.id !== updatedPlayer.id })
     if (Array.isArray(players)) players.push(player);
     this.localStorage.setObject('players', players)
   }
