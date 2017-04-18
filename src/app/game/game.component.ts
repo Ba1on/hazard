@@ -17,6 +17,8 @@ export class GameComponent {
   cards: {};
   players: {};
   mainPanel: Card;
+  leftPanel: Card;
+  rightPanel: Card;
   judge: Player;
   current_player: Player;
 
@@ -24,11 +26,52 @@ export class GameComponent {
               private playerService: PlayerService,
               private gameService: GameService,
               private dragulaService: DragulaService
-              ) { }
+              ) { dragulaService.drag.subscribe((value) => {
+                    this.onDrag(value.slice(1));
+                  });
+                  dragulaService.drop.subscribe((value) => {
+                    this.onDrop(value);
+                  });
+                }
+
+
+  private onDrag(args) {
+    let [e, el] = args;
+    // do something
+  }
+  
+  private onDrop(args) {
+    let [e, el, container] = args;
+    let droppableCard = this.cardService.getCard(el.dataset.id);
+    if (container.id == 'left-panel'){
+      this.leftPanel = droppableCard;
+      this.leftPanel.status = 'in-game';
+      this.cardService.update(this.leftPanel)
+
+    }else if (container.id == 'right-panel'){
+      this.rightPanel = droppableCard;
+      this.rightPanel.status = 'in-game';
+      this.cardService.update(this.rightPanel)
+
+    }else{
+      return false
+    }
+
+    // do something
+  }
 
   setCurrent(players): void {
     this.judge = _.sample(players);
     this.current_player = this.judge;
+  }
+
+  letPlay = () => {
+    let gamePanel = [this.leftPanel, this.mainPanel, this.rightPanel]
+    if (this.current_player == this.judge && gamePanel.filter(Boolean).length > 1){
+      return true
+    }else {
+      return false
+    }
   }
 
   getPlayers(): void {
@@ -49,7 +92,6 @@ export class GameComponent {
     this.createMainPanel(this.cards);
   }
 
-
   ngOnInit(): void {
     this.getCards();
   }
@@ -65,32 +107,10 @@ export class GameComponent {
       console.log(this.current_player)
     }
   }
+
+  startGame = () => {
+    console.log(this.current_player)
+    this.current_player = this.gameService.next(this.players, this.current_player);
+    console.log(this.current_player)
+  }
 }
-
-
-
-
-
-// class RepeatExample {
-//   public many: Array<string> = ['The', 'possibilities', 'are', 'endless!'];
-//   public many2: Array<string> = ['Explore', 'them'];
-
-  // constructor(private dragulaService: DragulaService) {
-  //   dragulaService.dropModel.subscribe((value) => {
-  //     this.onDropModel(value.slice(1));
-  //   });
-  //   dragulaService.removeModel.subscribe((value) => {
-  //     this.onRemoveModel(value.slice(1));
-  //   });
-  // }
-
-//   private onDropModel(args) {
-//     let [el, target, source] = args;
-//     // do something else
-//   }
-
-//   private onRemoveModel(args) {
-//     let [el, source] = args;
-//     // do something else
-//   }
-// }

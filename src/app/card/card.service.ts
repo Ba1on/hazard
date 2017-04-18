@@ -15,7 +15,7 @@ export class CardService {
 
   getCard = (id: number) => {
     let cards = this.getCards();
-    _.find(cards, function(card) { return card.id == id; });
+    return _.find(cards, function(card) { return card.id == id; });
   }
 
   update = (updateCard: Card) => {

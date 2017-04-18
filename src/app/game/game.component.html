@@ -12,21 +12,27 @@
   </li>
 </ul>
 
-<div *ngIf="mainPanel">
-  <div class="card-panel container" [dragula]='"bag-one"'></div>
-  <div class="card-panel">
-    <div class="card">{{mainPanel.id}}</div>
+<div class="card-panel-wrapper">
+  <div class="card-panel container" [dragula]='"bag-one"' id="left-panel">
+    <div class="card" *ngIf="leftPanel">{{leftPanel.id}}</div>
   </div>
-  <div class="card-panel" [dragula]='"bag-one"'></div>
+  <div class="card-panel" [dragula]='"bag-one"' id="main-panel">
+    <div class="card" *ngIf="mainPanel">{{mainPanel.id}}</div>
+  </div>
+  <div class="card-panel" [dragula]='"bag-one"' id="right-panel">
+    <div class="card" *ngIf="rightPanel">{{rightPanel.id}}</div>
+  </div>
 </div>
+
+<button *ngIf="letPlay()" (click)="startGame()">Let's play!</button>
+<button *ngIf="playNext()" (click)="continueGame()">Next</button>
 
 <div *ngIf="current_player">
   {{current_player.name}}
-  <ul class="cards" [dragula]='"bag-one"' [dragulaModel]='current_player.cards'>
-    <li *ngFor="let card of current_player.cards">
-      <span>{{card.id}}</span>
-      <div class="card" (click)="chooseCard(card)"></div>
-    </li>
-  </ul>
+  <div class="cards" [dragula]='"bag-one"' [dragulaModel]='current_player.cards' >
+    <div *ngFor="let card of current_player.cards" [attr.data-id]="card.id">
+      <div class="card" (click)="chooseCard(card)">{{card.id}}</div>
+    </div>
+  </div>
 </div> 
 
