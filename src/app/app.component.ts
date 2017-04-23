@@ -39,4 +39,9 @@ export class AppComponent {
       }
     }
   }
+
+  clearAll(): void {
+    this.localStorage.clear();
+    location.reload()
+  }
 }

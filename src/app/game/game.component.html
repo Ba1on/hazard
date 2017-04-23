@@ -1,9 +1,9 @@
 <ul class="players">
   <li *ngFor="let player of players">
     <span>{{player.name}}</span>
+    <span>{{player.points}}</span>
   </li>
 </ul>
-
 <ul class="players">
   <li *ngFor="let card of cards">
     <span>{{card.id}}</span>
@@ -14,25 +14,40 @@
 
 <div class="card-panel-wrapper">
   <div class="card-panel container" [dragula]='"bag-one"' id="left-panel">
-    <div class="card" *ngIf="leftPanel">{{leftPanel.id}}</div>
+    <div class="card" *ngIf="leftPanel && (leftPanel.userId == current_player.id || leftPanel.status == 'in-game')">
+      <img src="{{leftPanel.url}}">
+    </div>
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="main-panel">
-    <div class="card" *ngIf="mainPanel">{{mainPanel.id}}</div>
+    <div class="card" *ngIf="mainPanel"><img src="{{mainPanel.url}}"></div>
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="right-panel">
-    <div class="card" *ngIf="rightPanel">{{rightPanel.id}}</div>
+    <div class="card" *ngIf="rightPanel && (rightPanel.userId == current_player.id || rightPanel.status == 'in-game')">
+      <img src="{{rightPanel.url}}">
+    </div>
   </div>
 </div>
 
-<button *ngIf="letPlay()" (click)="startGame()">Let's play!</button>
-<button *ngIf="playNext()" (click)="continueGame()">Next</button>
+<div class="review-cards">
+  <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card" [ngClass]="{'active': card == coolCard}"><img src="{{card.url}}"></div>
+  <button *ngIf="coolCard" (click)="setPoint(coolCard)">lol</button>
+</div>
+
+<button *ngIf="letPlay()" (click)="nexPlayer()">Let's play!</button>
+<button *ngIf="playNext()" (click)="nexPlayer()">Next</button>
 
 <div *ngIf="current_player">
   {{current_player.name}}
   <div class="cards" [dragula]='"bag-one"' [dragulaModel]='current_player.cards' >
-    <div *ngFor="let card of current_player.cards" [attr.data-id]="card.id">
-      <div class="card" (click)="chooseCard(card)">{{card.id}}</div>
+    <div *ngFor="let card of current_player.cards" [attr.data-id]="card.id" >
+      <div class="card"><img src="{{card.url}}"></div>
     </div>
   </div>
 </div> 
 
+<div class="win-wrapper" *ngIf="cool_player">
+  <div class="win">{{cool_player.name}} win!</div>
+  <span>Продолжить?</span>
+  <button>Да</button>
+  <button>В жопу</button>
+</div>

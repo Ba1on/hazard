@@ -7,9 +7,6 @@ import { CoolStorageModule } from 'angular2-cool-storage';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
-
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
 import { GameComponent } from './game/game.component';
@@ -29,7 +26,6 @@ import { GameService } from './game/game.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
     AppRoutingModule,
     DragulaModule,
     CoolStorageModule

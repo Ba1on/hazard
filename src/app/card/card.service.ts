@@ -13,8 +13,7 @@ export class CardService {
     return this.localStorage.tryGetObject('cards')
   }
 
-  getCard = (id: number) => {
-    let cards = this.getCards();
+  getCard = (cards, id: number) => {
     return _.find(cards, function(card) { return card.id == id; });
   }
 

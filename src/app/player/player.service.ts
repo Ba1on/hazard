@@ -13,8 +13,7 @@ export class PlayerService {
     return this.localStorage.tryGetObject('players')
   }
 
-  getPlayer = (id: number) => {
-    let players = this.getPlayers();
+  getPlayer = (players, id: number) => {
     if (Array.isArray(players)) return _.find(players, function(player) { return player.id == id; });
   }
 
@@ -45,7 +44,7 @@ export class PlayerService {
 
   update = (player: Player) => {
     let players = this.getPlayers()
-    let updatePlayer = this.getPlayer(player.id)
+    let updatePlayer = this.getPlayer(players, player.id)
     if (Array.isArray(players)) players = players.filter((updatedPlayer) => { return player.id !== updatedPlayer.id })
     if (Array.isArray(players)) players.push(player);
     this.localStorage.setObject('players', players)

@@ -1,5 +1,6 @@
+<button (click)="clearAll()">Нахер все</button>
 <div *ngIf="!gameIsOn">
   <players></players>
-  <button (click)="startGame()">Play!</button>
+  <button (click)="startGame()">Стартуем</button>
 </div>
 <game *ngIf="gameIsOn"></game>
