@@ -1,18 +1,20 @@
 import { Injectable }    from '@angular/core';
 import { CardService } from '../card/card.service';
 import { PlayerService } from '../player/player.service';
-import { Constants } from '../constants'
+import { Constants } from '../constants';
+import { CoolLocalStorage } from 'angular2-cool-storage';
 
 import _ from "lodash";
 
 @Injectable()
 export class GameService {
   constructor(private cardService: CardService,
-              private playerService: PlayerService){}
+              private playerService: PlayerService,
+              private localStorage: CoolLocalStorage){}
 
   passCards(players, cards): void {
     players.forEach((player) => {
-      cards = _.filter(cards, {status: 'in-the-desk'})
+      cards = this.cardService.filterCards(cards, 'in-the-desk')
       player.cards = player.cards.concat(_.sampleSize(cards, Constants.cardsOnHands-player.cards.length))
       this.playerService.update(player);
       player.cards.forEach((card) => {
@@ -23,16 +25,23 @@ export class GameService {
     })
   }
 
-  next = (myArray, item) => {
+  next = (myArray, item, itemName) => {
+    let player;
     if (_.last(myArray) == item){
-      return _.first(myArray)
+      player = _.first(myArray)
     }else {
-      return _.find(myArray, {id: item.id + 1})
+      player = _.find(myArray, {id: item.id + 1})
     }
+    this.setSomethToLs(player.id, itemName);
+    return player;
   }
 
   panelName = (panel, leftPanel, rightPanel) => {
     if (panel == leftPanel) return 'leftPanel';
     if (panel == rightPanel) return 'rightPanel';
+  }
+
+  setSomethToLs = (id, fieldName) => {
+    this.localStorage.setItem(fieldName, id)
   }
 }

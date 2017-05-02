@@ -21,6 +21,7 @@ export class GameComponent {
   leftPanel: Card;
   rightPanel: Card;
   droppedCard: Card;
+  coolCard: Card;
   judge: Player;
   current_player: Player;
   cool_player: Player;
@@ -47,17 +48,12 @@ export class GameComponent {
                 }
 
   private onAccept(el, target) {
-    let judgeCondition = true;
-    if (this.current_player == this.judge) {
-      judgeCondition = this.gamePanel.filter(Boolean).length > 1
-    }
-    console.log(judgeCondition)
     return !(this[target.id] && (this[target.id].userId == this.current_player.id || this[target.id].status == 'in-game'))
   }
 
   private noMove(el) {
     let droppableCard = this.cardService.getCard(this.cards, el.dataset.id);
-    return !(droppableCard == this.mainPanel && !droppableCard.userId);
+    return !(droppableCard == this.mainPanel && !droppableCard.userId || droppableCard.userId !== this.current_player.id);
   }
 
   private onDrop(args) {
@@ -65,13 +61,11 @@ export class GameComponent {
     if (container.id){
       this.droppedCard = this.cardService.getCard(this.cards, el.dataset.id);
       this[container.id] = this.droppedCard
+      this.gameService.setSomethToLs(this.droppedCard.id, container.id);
+      this.gameService.setSomethToLs(this.droppedCard.id, 'droppedCard');
     }
     this[sourse.id] = null
-  }
-
-  setCurrent(players): void {
-    this.judge = _.sample(players);
-    this.current_player = this.judge;
+    this.gameService.setSomethToLs(this[sourse.id], sourse.id)
   }
 
   letPlay = () => {
@@ -86,25 +80,38 @@ export class GameComponent {
 
   getPlayers(): void {
     this.players = this.playerService.getPlayers();
-    this.setCurrent(this.players);
+    this.judge = this.playerService.getPlayerToLs(this.players, 'judge');
+    if (!this.judge){
+      this.judge = _.sample(this.players);
+      this.gameService.setSomethToLs(this.judge.id, 'judge');
+    }
+    this.current_player = this.playerService.getPlayerToLs(this.players, 'current_player');
+    if (!this.current_player){
+      this.current_player = this.judge;
+      this.gameService.setSomethToLs(this.current_player.id, 'current_player');
+    }
   }
 
   createMainPanel(cards): void {
-    cards = _.filter(cards, {status: 'in-the-desk'})
-    this.mainPanel = _.sample(cards);
-    this.mainPanel.status = 'in-game';
-    this.cardService.update(this.mainPanel)
+    Constants.panels.forEach( panel => this[panel] = this.cardService.getPanelToLs(cards, panel))
+    if (!this.mainPanel) {
+      cards = this.cardService.filterCards(cards, 'in-the-desk')
+      this.mainPanel = _.sample(cards);
+      this.mainPanel.status = 'in-game';
+      this.cardService.update(this.mainPanel)
+      this.gameService.setSomethToLs(this.mainPanel.id, 'mainPanel')
+    }
   }
 
   getCards(): void {
     this.cards = this.cardService.getCards()
-    this.getPlayers();
     if (!this.mainPanel) this.createMainPanel(this.cards);
   }
 
   ngOnInit(): void {
     this.getCards();
-    this.pointCards = _.filter(this.cards, (card) => { return card.status == 'review'})
+    this.getPlayers();
+    this.pointCards = this.cardService.filterCards(this.cards, 'review')
   }
 
   setPoint(card): void {
@@ -119,35 +126,37 @@ export class GameComponent {
     if (this.cool_player) {
       return;
     }else{
-      this.judge = this.gameService.next(this.players, this.judge);
-      this.current_player = this.gameService.next(this.players, this.current_player);
+      this.judge = this.gameService.next(this.players, this.judge, 'judge');
+      this.current_player = this.gameService.next(this.players, this.current_player, 'current_player');
       let cardOutage = _.filter(this.cards, (card) => { return card.status == 'review' || card.status == 'in-game'});
       cardOutage.forEach((card) => {
         card.status = 'card-outage';
         this.cardService.update(card);
       })
       this.gameService.passCards(this.players, this.cards);
-      this.leftPanel = this.mainPanel = this.rightPanel = null;
+      this.leftPanel = this.mainPanel = this.rightPanel = this.coolCard = null;
+      Constants.panels.forEach( panel => this[panel] = this.gameService.setSomethToLs(null, panel))
       this.pointCards = [];
       this.createMainPanel(this.cards)
     }
   }
 
   nexPlayer = () => {
-    let panelName = this.gameService.panelName(this.droppedCard, this.leftPanel, this.rightPanel)
+    let droppedCard = this.droppedCard || this.cardService.getPanelToLs(this.cards, 'droppedCard')
+    let panelName = this.gameService.panelName(droppedCard, this.leftPanel, this.rightPanel)
     if (this.current_player == this.judge){
       this[panelName].status = 'in-game'
     }else {
       this[panelName].status = 'review'
     }
     this.cardService.update(this[panelName])
-    this.current_player.cards = this.current_player.cards.filter((card) => {return card.id !== this.droppedCard.id})
+    this.current_player.cards = this.current_player.cards.filter((card) => {return card.id !== droppedCard.id})
     this.playerService.update(this.current_player)
 
     let cardsCount = this.current_player.cards.length;
-    this.current_player = this.gameService.next(this.players, this.current_player);
+    this.current_player = this.gameService.next(this.players, this.current_player, 'current_player');
     if (this.current_player == this.judge && cardsCount < Constants.cardsOnHands){
-      this.pointCards = _.filter(this.cards, (card) => { return card.status == 'review'})
+      this.pointCards = this.cardService.filterCards(this.cards, 'review')
     }
   }
 

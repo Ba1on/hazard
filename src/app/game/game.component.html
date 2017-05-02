@@ -5,19 +5,17 @@
     <span>{{player.points}}</span>
   </div>
 </div>
-<!-- <ul class="players">
-  <li *ngFor="let card of cards">
-    <span>{{card.id}}</span>
-    <span>{{card.status}}</span>
-    <span>{{card.userId}}</span>
-  </li>
-</ul> -->
 
 <div class="card-panel-wrapper">
   <div class="card-panel container" [dragula]='"bag-one"' id="leftPanel">
     <div class="card" *ngIf="leftPanel && (leftPanel.userId == current_player.id || leftPanel.status == 'in-game')" [attr.data-id]="leftPanel.id">
       <img src="{{leftPanel.url}}">
     </div>
+    <div class="review-cards" *ngIf="current_player == judge && pointCards.slice(-1)[0] == leftPanel">
+      <div class="card" *ngFor="let card of pointCards"  (click)="coolCard = card"><img src="{{card.url}}"></div>
+      <button *ngIf="coolCard" (click)="setPoint(coolCard)">lol</button>
+    </div>
+
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="mainPanel">
     <div class="card" *ngIf="mainPanel" [attr.data-id]="mainPanel.id"><img src="{{mainPanel.url}}"></div>
@@ -26,12 +24,13 @@
     <div class="card" *ngIf="rightPanel && (rightPanel.userId == current_player.id || rightPanel.status == 'in-game')" [attr.data-id]='rightPanel.id'>
       <img src="{{rightPanel.url}}">
     </div>
-  </div>
-</div>
 
-<div class="review-cards">
-  <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card" [ngClass]="{'active': card == coolCard, 'left': pointCards.slice(-1)[0] == leftPanel, 'right': pointCards.slice(-1)[0] == rightPanel }" ><img src="{{card.url}}"></div>
-  <button *ngIf="coolCard" (click)="setPoint(coolCard)">lol</button>
+    <div class="review-cards" *ngIf="current_player == judge && pointCards.slice(-1)[0] == rightPanel">
+      <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card"><img src="{{card.url}}"></div>
+      <button *ngIf="coolCard" (click)="setPoint(coolCard)">lol</button>
+    </div>
+
+  </div>
 </div>
 
 <div class="next-btn-wrapper">

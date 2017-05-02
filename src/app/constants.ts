@@ -1,6 +1,7 @@
 export class Constants {
   public static cardsOnHands = 7;
   public static maxPoints = 3;
+  public static panels = ['leftPanel', 'mainPanel', 'rightPanel'];
   public static cards = [
     {"id":"hazard/Рубашка_tdghdj","url":"http://res.cloudinary.com/dt0eubx7s/image/upload/v1492951922/hazard/%D0%A0%D1%83%D0%B1%D0%B0%D1%88%D0%BA%D0%B0_tdghdj.jpg","status":"сard-shirt","type":"сard-shirt","userId":null},
     {"id":"hazard/440_r70luy","url":"http://res.cloudinary.com/dt0eubx7s/image/upload/v1492951921/hazard/440_r70luy.jpg","status":"in-the-desk","type":"usual","userId":null},

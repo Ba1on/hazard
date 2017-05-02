@@ -10,27 +10,24 @@ export class PlayerService {
   constructor(private localStorage: CoolLocalStorage) { }
 
   getPlayers = () => {
-    return this.localStorage.tryGetObject('players')
+    let players = this.localStorage.tryGetObject('players')
+    if (Array.isArray(players)) return players
   }
 
   getPlayer = (players, id: number) => {
-    if (Array.isArray(players)) return _.find(players, function(player) { return player.id == id; });
+    return _.find(players, function(player) { return player.id == id; });
   }
 
   delete = (id: number) => {
     let players = this.getPlayers()
-    if (Array.isArray(players)){
-      players = players.filter((player) => { return player.id !== id; })
-      this.localStorage.setObject('players', players)
-    }
+    players = players.filter((player) => { return player.id !== id; })
+    this.localStorage.setObject('players', players)
   }
 
   create = (userName: string) => {
     let players = this.getPlayers()
     let player = new Player({id: this.nextId(players), name: userName, isJudge: false, points: 0, cards: []});
-    if (Array.isArray(players)){
-      players.push(player)
-    }
+    players.push(player)
     this.localStorage.setObject('players', players)
   }
 
@@ -45,8 +42,13 @@ export class PlayerService {
   update = (player: Player) => {
     let players = this.getPlayers()
     let updatePlayer = this.getPlayer(players, player.id)
-    if (Array.isArray(players)) players = players.filter((updatedPlayer) => { return player.id !== updatedPlayer.id })
-    if (Array.isArray(players)) players.push(player);
+    players = players.filter((updatedPlayer) => { return player.id !== updatedPlayer.id })
+    players.push(player);
     this.localStorage.setObject('players', players)
+  }
+
+  getPlayerToLs = (players, playerRole) => {
+    let playerId = this.localStorage.getItem(playerRole);
+    return this.getPlayer(players, Number.parseInt(playerId))
   }
 }

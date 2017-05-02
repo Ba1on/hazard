@@ -28,15 +28,13 @@ export class AppComponent {
 
   startGame(): void {
     let players = this.playerService.getPlayers();
-    if (Array.isArray(players)){
-      if (players.length < 3 || players.length > 8) {
-        alert('Количество игроков должно быть от 3 до 8!')
-      } else {
-        this.localStorage.setItem('gameIsOn', 'true');
-        this.gameIsOn = !this.gameIsOn;
-        let cards = this.cardService.getCards();
-        this.gameService.passCards(players, cards);
-      }
+    if (players.length < 3 || players.length > 8) {
+      alert('Количество игроков должно быть от 3 до 8!')
+    } else {
+      this.localStorage.setItem('gameIsOn', 'true');
+      this.gameIsOn = !this.gameIsOn;
+      let cards = this.cardService.getCards();
+      this.gameService.passCards(players, cards);
     }
   }
 

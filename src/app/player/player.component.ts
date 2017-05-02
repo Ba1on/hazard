@@ -15,11 +15,7 @@ export class PlayerComponent {
   constructor(private playerService: PlayerService) { }
 
   getPlayers(): void {
-    let players = this.playerService.getPlayers();
-    if (Array.isArray(players)){
-      this.players = players;
-    }
-    
+    this.players = this.playerService.getPlayers();
   }
 
   add(name: string): void {
