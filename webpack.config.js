@@ -196,7 +196,7 @@ module.exports = {
         "icon.png"
       ],
       "globOptions": {
-        "cwd": "/home/balon/work/hazard/src",
+        "cwd": "./src/",
         "dot": true,
         "ignore": "**/.gitkeep"
       }

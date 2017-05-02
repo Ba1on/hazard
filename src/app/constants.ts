@@ -1,5 +1,5 @@
 export class Constants {
-  public static cardsOnHands = 3;
+  public static cardsOnHands = 7;
   public static maxPoints = 3;
   public static cards = [
     {"id":"hazard/Рубашка_tdghdj","url":"http://res.cloudinary.com/dt0eubx7s/image/upload/v1492951922/hazard/%D0%A0%D1%83%D0%B1%D0%B0%D1%88%D0%BA%D0%B0_tdghdj.jpg","status":"сard-shirt","type":"сard-shirt","userId":null},

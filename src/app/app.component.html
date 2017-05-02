@@ -1,6 +1,8 @@
-<button (click)="clearAll()">Нахер все</button>
-<div *ngIf="!gameIsOn">
+<button (click)="clearAll()" class="reload-icon btn">
+  <img src="assets/images/reload-icon.png">
+</button>
+<div *ngIf="!gameIsOn" class="play-container">
   <players></players>
-  <button (click)="startGame()">Стартуем</button>
+  <button (click)="startGame()" class="play-btn btn"><img src="assets/images/Game-start.png"></button>
 </div>
 <game *ngIf="gameIsOn"></game>

@@ -30,7 +30,7 @@ export class AppComponent {
     let players = this.playerService.getPlayers();
     if (Array.isArray(players)){
       if (players.length < 3 || players.length > 8) {
-        alert('The number of players must be more than three and less than eight!')
+        alert('Количество игроков должно быть от 3 до 8!')
       } else {
         this.localStorage.setItem('gameIsOn', 'true');
         this.gameIsOn = !this.gameIsOn;

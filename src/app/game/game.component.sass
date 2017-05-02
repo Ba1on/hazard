@@ -1,7 +1,5 @@
 .card
-  background: red
-  width: 100px
-  height: 100px
+  max-width: 150px
   margin-left: 10px
   img
     width: 100%
@@ -10,15 +8,30 @@
   display: flex
 
 .card-panel
-  background: blue
-  width: 150px
-  height: 150px
-  margin-left: 10px
+  border: 5px gray dashed
+  width: 25%
+  min-width: 150px
+  height: 260px
+  margin-left: 30px
+  position: relative
+  display: flex
+  justify-content: center
+  padding-top: 1.5%
+  .card
+    display: inline-block
+    width: auto
+    max-width: none
+    margin-left: 0
+    height: 90%
+    position: absolute
+    img
+      width: auto
+      height: 100%
 
 .card-panel-wrapper
   display: flex
+  justify-content: center
   .card
-    position: absolute
 
 .active
   border: 2px solid black
@@ -35,3 +48,29 @@
     background: white
     height  90vh
     width: 90vw
+
+.players
+  display: flex
+  margin: 5px 0 25px
+  font-size: 1.5em
+  align-items: flex-end
+  .player
+    margin: 0 10px
+  .active-player
+    color: red
+  .player-judge
+    width: 50px
+    img
+      width: 100%
+
+.next-btn-wrapper
+  display: flex
+  justify-content: center
+  .next-btn
+    width: 50px
+    margin: 20px 0 10px
+    img
+      width: 100%
+
+.current-name
+  font-size: 1.5em

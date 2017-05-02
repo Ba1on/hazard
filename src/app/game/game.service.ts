@@ -1,6 +1,7 @@
 import { Injectable }    from '@angular/core';
 import { CardService } from '../card/card.service';
 import { PlayerService } from '../player/player.service';
+import { Constants } from '../constants'
 
 import _ from "lodash";
 
@@ -12,7 +13,7 @@ export class GameService {
   passCards(players, cards): void {
     players.forEach((player) => {
       cards = _.filter(cards, {status: 'in-the-desk'})
-      player.cards = player.cards.concat(_.sampleSize(cards, 3-player.cards.length))
+      player.cards = player.cards.concat(_.sampleSize(cards, Constants.cardsOnHands-player.cards.length))
       this.playerService.update(player);
       player.cards.forEach((card) => {
         card.status = 'on-hands';
@@ -28,5 +29,10 @@ export class GameService {
     }else {
       return _.find(myArray, {id: item.id + 1})
     }
+  }
+
+  panelName = (panel, leftPanel, rightPanel) => {
+    if (panel == leftPanel) return 'leftPanel';
+    if (panel == rightPanel) return 'rightPanel';
   }
 }

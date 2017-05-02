@@ -1,53 +1,57 @@
-<ul class="players">
-  <li *ngFor="let player of players">
-    <span>{{player.name}}</span>
+<div class="players">
+  <div *ngFor="let player of players" class="player" [ngClass]="{'active-player': player == current_player}">
+    <div *ngIf="player == judge" class="player-judge"><img src="assets/images/judge.png"></div>
+    <span>{{player.name}} - </span>
     <span>{{player.points}}</span>
-  </li>
-</ul>
-<ul class="players">
+  </div>
+</div>
+<!-- <ul class="players">
   <li *ngFor="let card of cards">
     <span>{{card.id}}</span>
     <span>{{card.status}}</span>
     <span>{{card.userId}}</span>
   </li>
-</ul>
+</ul> -->
 
 <div class="card-panel-wrapper">
-  <div class="card-panel container" [dragula]='"bag-one"' id="left-panel">
-    <div class="card" *ngIf="leftPanel && (leftPanel.userId == current_player.id || leftPanel.status == 'in-game')">
+  <div class="card-panel container" [dragula]='"bag-one"' id="leftPanel">
+    <div class="card" *ngIf="leftPanel && (leftPanel.userId == current_player.id || leftPanel.status == 'in-game')" [attr.data-id]="leftPanel.id">
       <img src="{{leftPanel.url}}">
     </div>
   </div>
-  <div class="card-panel" [dragula]='"bag-one"' id="main-panel">
-    <div class="card" *ngIf="mainPanel"><img src="{{mainPanel.url}}"></div>
+  <div class="card-panel" [dragula]='"bag-one"' id="mainPanel">
+    <div class="card" *ngIf="mainPanel" [attr.data-id]="mainPanel.id"><img src="{{mainPanel.url}}"></div>
   </div>
-  <div class="card-panel" [dragula]='"bag-one"' id="right-panel">
-    <div class="card" *ngIf="rightPanel && (rightPanel.userId == current_player.id || rightPanel.status == 'in-game')">
+  <div class="card-panel" [dragula]='"bag-one"' id="rightPanel">
+    <div class="card" *ngIf="rightPanel && (rightPanel.userId == current_player.id || rightPanel.status == 'in-game')" [attr.data-id]='rightPanel.id'>
       <img src="{{rightPanel.url}}">
     </div>
   </div>
 </div>
 
 <div class="review-cards">
-  <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card" [ngClass]="{'active': card == coolCard}"><img src="{{card.url}}"></div>
+  <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card" [ngClass]="{'active': card == coolCard, 'left': pointCards.slice(-1)[0] == leftPanel, 'right': pointCards.slice(-1)[0] == rightPanel }" ><img src="{{card.url}}"></div>
   <button *ngIf="coolCard" (click)="setPoint(coolCard)">lol</button>
 </div>
 
-<button *ngIf="letPlay()" (click)="nexPlayer()">Let's play!</button>
-<button *ngIf="playNext()" (click)="nexPlayer()">Next</button>
+<div class="next-btn-wrapper">
+  <button *ngIf="letPlay()" (click)="nexPlayer()" class="btn next-btn"><img src="assets/images/next-icon.png"></button>
+</div>
 
 <div *ngIf="current_player">
-  {{current_player.name}}
-  <div class="cards" [dragula]='"bag-one"' [dragulaModel]='current_player.cards' >
-    <div *ngFor="let card of current_player.cards" [attr.data-id]="card.id" >
-      <div class="card"><img src="{{card.url}}"></div>
+  <span class="current-name">{{current_player.name}}</span>
+  <div class="cards" [dragula]='"bag-one"' >
+    <div *ngFor="let card of current_player.cards" [attr.data-id]="card.id" class="card">
+      <img src="{{card.url}}">
     </div>
   </div>
 </div> 
 
 <div class="win-wrapper" *ngIf="cool_player">
-  <div class="win">{{cool_player.name}} win!</div>
-  <span>Продолжить?</span>
-  <button>Да</button>
-  <button>В жопу</button>
+  <div class="win">
+    <span>{{cool_player.name}} win!</span>
+    <span>Продолжить?</span>
+    <button (click)="cool_player = !cool_player">Да</button>
+    <button (click)="clearAll()">В жопу</button>
+  </div>
 </div>

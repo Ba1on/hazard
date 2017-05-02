@@ -20,7 +20,7 @@ export class GameComponent {
   mainPanel: Card;
   leftPanel: Card;
   rightPanel: Card;
-  coolCard: Card;
+  droppedCard: Card;
   judge: Player;
   current_player: Player;
   cool_player: Player;
@@ -34,34 +34,39 @@ export class GameComponent {
               ) { dragulaService.drop.subscribe((value) => {
                     this.onDrop(value);
                   });
+
+                  dragulaService.setOptions('bag-one', {
+                    revertOnSpill: true,
+                     accepts: (el, target, source, sibling) => {
+                      return this.onAccept(el, target)
+                    },
+                    moves: (el, container, handle) => {
+                      return this.noMove(el)
+                    }
+                  });
                 }
 
-  private onDrop(args) {
-    let [e, el, container] = args;
-    let droppableCard = this.cardService.getCard(this.cards, el.dataset.id);
-    if (container.id == 'left-panel'){
-      this.leftPanel = droppableCard;
-      if (this.current_player == this.judge){
-        this.leftPanel.status = 'in-game';
-      }else {
-        this.leftPanel.status = 'review';
-      }
-      this.cardService.update(this.leftPanel)
-      this.current_player.cards = this.current_player.cards.filter((card) => {return card.id !== droppableCard.id})
-      this.playerService.update(this.current_player)
-    }else if (container.id == 'right-panel'){
-      this.rightPanel = droppableCard;
-      if (this.current_player == this.judge){
-        this.rightPanel.status = 'in-game';
-      }else {
-        this.rightPanel.status = 'review';
-      }
-      this.cardService.update(this.rightPanel)
-      this.current_player.cards = this.current_player.cards.filter((card) => {return card.id !== droppableCard.id})
-      this.playerService.update(this.current_player)
-    }else{
-      return false
+  private onAccept(el, target) {
+    let judgeCondition = true;
+    if (this.current_player == this.judge) {
+      judgeCondition = this.gamePanel.filter(Boolean).length > 1
     }
+    console.log(judgeCondition)
+    return !(this[target.id] && (this[target.id].userId == this.current_player.id || this[target.id].status == 'in-game'))
+  }
+
+  private noMove(el) {
+    let droppableCard = this.cardService.getCard(this.cards, el.dataset.id);
+    return !(droppableCard == this.mainPanel && !droppableCard.userId);
+  }
+
+  private onDrop(args) {
+    let [e, el, container, sourse] = args;
+    if (container.id){
+      this.droppedCard = this.cardService.getCard(this.cards, el.dataset.id);
+      this[container.id] = this.droppedCard
+    }
+    this[sourse.id] = null
   }
 
   setCurrent(players): void {
@@ -71,10 +76,11 @@ export class GameComponent {
 
   letPlay = () => {
     this.gamePanel = [this.leftPanel, this.mainPanel, this.rightPanel];
-    if (this.current_player == this.judge && this.gamePanel.filter(Boolean).length == 2){
-      return true
-    }else {
-      return false
+    if (this.current_player == this.judge){
+      return this.gamePanel.filter(Boolean).length == 2
+    }
+    else{
+      return this.gamePanel.filter(Boolean).length == 3
     }
   }
 
@@ -121,13 +127,23 @@ export class GameComponent {
         this.cardService.update(card);
       })
       this.gameService.passCards(this.players, this.cards);
-      this.leftPanel = this.mainPanel = this.rightPanel = this.coolCard = null;
+      this.leftPanel = this.mainPanel = this.rightPanel = null;
       this.pointCards = [];
       this.createMainPanel(this.cards)
     }
   }
 
   nexPlayer = () => {
+    let panelName = this.gameService.panelName(this.droppedCard, this.leftPanel, this.rightPanel)
+    if (this.current_player == this.judge){
+      this[panelName].status = 'in-game'
+    }else {
+      this[panelName].status = 'review'
+    }
+    this.cardService.update(this[panelName])
+    this.current_player.cards = this.current_player.cards.filter((card) => {return card.id !== this.droppedCard.id})
+    this.playerService.update(this.current_player)
+
     let cardsCount = this.current_player.cards.length;
     this.current_player = this.gameService.next(this.players, this.current_player);
     if (this.current_player == this.judge && cardsCount < Constants.cardsOnHands){
@@ -135,11 +151,5 @@ export class GameComponent {
     }
   }
 
-  playNext = () => {
-    if (this.current_player != this.judge && this.gamePanel.filter(Boolean).length == 3){
-      return true
-    }else {
-      return false
-    }
-  }
+
 }
