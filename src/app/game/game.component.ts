@@ -48,7 +48,7 @@ export class GameComponent {
                 }
 
   private onAccept(el, target) {
-    return !(this[target.id] && (this[target.id].userId == this.current_player.id || this[target.id].status == 'in-game'))
+    return !(this[target.id] && (this[target.id].userId == this.current_player.id || this[target.id].status == 'in-game') || ((this.current_player == this.judge) && this.current_player.cards.length < Constants.cardsOnHands))
   }
 
   private noMove(el) {
