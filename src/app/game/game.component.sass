@@ -1,6 +1,7 @@
 .card
-  max-width: 150px
+  max-width: 130px
   margin-left: 10px
+  position: relative
   .cl-image
     height: 100%
     width: 100%
@@ -33,10 +34,10 @@
 .card-panel-wrapper
   display: flex
   justify-content: center
-  .card
 
 .active
-  border: 2px solid black
+  border: 5px dashed #8db6ca
+  padding: 5px
 
 .win-wrapper
   height: 100vh
@@ -46,10 +47,19 @@
   display: flex
   justify-content: center
   top: 0
+  left: 0
   .win
     background: white
     height  90vh
     width: 90vw
+    display: flex
+    flex-direction: column
+    padding: 40px 0
+    align-items: center
+    .win-name
+    .win-animation
+      height: 65vh
+      width: auto
 
 .players
   display: flex
@@ -76,3 +86,76 @@
 
 .current-name
   font-size: 1.5em
+
+.win-btn
+  font-size: 2em
+  margin-bottom: 10px
+  background: #19ccfb
+  padding: 10px 28px
+  border-color: transparent
+  border-radius: 40px
+
+.loupe-icon
+  position: absolute
+  top: 10px
+  right: 10px
+  height: 20px
+  width: 20px
+  border: 2px solid black
+  border-radius: 50%
+  z-index: 1
+  display: none
+  justify-content: center
+  align-items: center
+  font-size: 30px
+  background: white
+
+.loupe-icon:after
+  content: "+"
+  font-weight: bold
+
+.card:hover
+  .loupe-icon
+    display: flex
+
+.card.resize
+  transform: scale(3)
+  position: fixed !important
+  top: 203px
+  left: 0
+  right: 0
+  margin: auto
+  z-index: 3
+  .loupe-icon:after
+    content: "-"
+    margin-top: -7px
+.card-panel
+  .card.resize
+    height: 193px
+    max-width: 130px
+    left: 45%
+.card-panel
+  .review-cards
+    display: flex
+    width: 100%
+    flex-wrap: wrap
+    text-align: center
+    .cards-list
+      overflow: overlay
+      height: 100%
+      .card
+        position: relative
+        width: inherit
+        height: 100%
+        flex-basis: 100%
+        max-width: 100%
+        margin-bottom: 10px
+
+.lol-btn
+  position: absolute
+  font-size: 2em
+  background: #19ccfb
+  border: none
+  border-radius: 54px
+  padding: 10px 20px
+  left: -40px

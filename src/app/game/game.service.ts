@@ -44,4 +44,10 @@ export class GameService {
   setSomethToLs = (id, fieldName) => {
     this.localStorage.setItem(fieldName, id)
   }
+
+  clearAll(): void {
+    this.localStorage.clear();
+    location.reload()
+  }
+
 }

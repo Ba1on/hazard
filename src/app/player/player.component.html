@@ -10,7 +10,7 @@
     <li *ngFor="let player of players" class="players__list__player">
       <span class="players__list__player__name">{{player.name}}</span>
       <button class="players__list__player__btn btn" (click)="delete(player); $event.stopPropagation()">
-        <img src="assets/images/see-a-dead.png">
+        <cl-image public-id="see-a-dead_lbmscn" cloud-name="{{cloudName}}" class="cl-image" height="80"></cl-image>
       </button>
     </li>
   </ul>

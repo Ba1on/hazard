@@ -1,7 +1,8 @@
 export class Constants {
-  public static cardsOnHands = 7;
+  public static cardsOnHands = 3;
   public static maxPoints = 3;
   public static panels = ['leftPanel', 'mainPanel', 'rightPanel'];
+  public static cloudName = 'dt0eubx7s';
   public static cards = [
     {"id":"hazard/Рубашка_tdghdj", "status":"сard-shirt","type":"сard-shirt","userId":null},
     {"id":"hazard/440_r70luy","status":"in-the-desk","type":"usual","userId":null},

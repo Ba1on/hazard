@@ -15,6 +15,7 @@ import { Constants } from './constants'
 })
 export class AppComponent {
   private gameIsOn: boolean = (this.localStorage.getItem('gameIsOn') == 'true') || false;
+  cloudName = Constants.cloudName;
 
   constructor(private cardService: CardService,
               private playerService: PlayerService,
@@ -36,10 +37,5 @@ export class AppComponent {
       let cards = this.cardService.getCards();
       this.gameService.passCards(players, cards);
     }
-  }
-
-  clearAll(): void {
-    this.localStorage.clear();
-    location.reload()
   }
 }

@@ -3,6 +3,7 @@ import _ from "lodash";
 
 import { Player } from './player'
 import { PlayerService } from './player.service';
+import { Constants } from '../constants';
 
 @Component({
   selector: 'players',
@@ -11,6 +12,7 @@ import { PlayerService } from './player.service';
 })
 export class PlayerComponent {
   players: Player[] = [];
+  cloudName = Constants.cloudName;
 
   constructor(private playerService: PlayerService) { }
 
