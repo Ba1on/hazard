@@ -9,24 +9,31 @@
 <div class="card-panel-wrapper">
   <div class="card-panel container" [dragula]='"bag-one"' id="leftPanel">
     <div class="card" *ngIf="leftPanel && (leftPanel.userId == current_player.id || leftPanel.status == 'in-game')" [attr.data-id]="leftPanel.id">
-      <img src="{{leftPanel.url}}">
+      <cl-image public-id="{{leftPanel.id}}" cloud-name="dt0eubx7s" class="cl-image">
+      </cl-image>
     </div>
     <div class="review-cards" *ngIf="current_player == judge && pointCards.slice(-1)[0] == leftPanel">
-      <div class="card" *ngFor="let card of pointCards"  (click)="coolCard = card"><img src="{{card.url}}"></div>
+      <div class="card" *ngFor="let card of pointCards"  (click)="coolCard = card">
+        <cl-image public-id="{{card.id}}" cloud-name="dt0eubx7s" class="cl-image"></cl-image>
+      </div>
       <button *ngIf="coolCard" (click)="setPoint(coolCard)">lol</button>
     </div>
 
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="mainPanel">
-    <div class="card" *ngIf="mainPanel" [attr.data-id]="mainPanel.id"><img src="{{mainPanel.url}}"></div>
+    <div class="card" *ngIf="mainPanel" [attr.data-id]="mainPanel.id">
+      <cl-image public-id="{{mainPanel.id}}" cloud-name="dt0eubx7s" class="cl-image"></cl-image>
+    </div>
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="rightPanel">
     <div class="card" *ngIf="rightPanel && (rightPanel.userId == current_player.id || rightPanel.status == 'in-game')" [attr.data-id]='rightPanel.id'>
-      <img src="{{rightPanel.url}}">
+      <cl-image public-id="{{rightPanel.id}}" cloud-name="dt0eubx7s" class="cl-image"></cl-image>
     </div>
 
     <div class="review-cards" *ngIf="current_player == judge && pointCards.slice(-1)[0] == rightPanel">
-      <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card"><img src="{{card.url}}"></div>
+      <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card">
+        <cl-image public-id="{{card.id}}" cloud-name="dt0eubx7s" class="cl-image"></cl-image>
+      </div>
       <button *ngIf="coolCard" (click)="setPoint(coolCard)">lol</button>
     </div>
 
@@ -34,17 +41,19 @@
 </div>
 
 <div class="next-btn-wrapper">
-  <button *ngIf="letPlay()" (click)="nexPlayer()" class="btn next-btn"><img src="assets/images/next-icon.png"></button>
+  <button *ngIf="letPlay()" (click)="nexPlayer()" class="btn next-btn">
+    <img src="assets/images/next-icon.png">
+  </button>
 </div>
 
 <div *ngIf="current_player">
   <span class="current-name">{{current_player.name}}</span>
   <div class="cards" [dragula]='"bag-one"' >
     <div *ngFor="let card of current_player.cards" [attr.data-id]="card.id" class="card">
-      <img src="{{card.url}}">
+      <cl-image public-id="{{card.id}}" cloud-name="dt0eubx7s" class="cl-image"></cl-image>
     </div>
   </div>
-</div> 
+</div>
 
 <div class="win-wrapper" *ngIf="cool_player">
   <div class="win">

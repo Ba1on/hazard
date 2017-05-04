@@ -24,3 +24,13 @@
   border: none;
   cursor: pointer;
 }
+
+img {
+  height: 100%;
+}
+
+.cards img {
+  width: 100%;
+}
+
+
