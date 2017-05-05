@@ -167,7 +167,7 @@ export class GameComponent {
     let cardsCount = this.current_player.cards.length;
     this.current_player = this.gameService.next(this.players, this.current_player, 'current_player');
     if (this.current_player == this.judge && cardsCount < Constants.cardsOnHands){
-      this.pointCards = this.cardService.filterCards(this.cards, 'review')
+      this.pointCards = this.cardService.filterCards(this.cards, 'review');
     }
   }
 
