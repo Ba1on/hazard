@@ -15,8 +15,8 @@ import { GameService } from './game.service';
   styleUrls: ['./game.component.sass']
 })
 export class GameComponent {
-  cards: {};
-  players: {};
+  cards: Card[];
+  players: Player[];
   mainPanel: Card;
   leftPanel: Card;
   rightPanel: Card;
@@ -27,6 +27,7 @@ export class GameComponent {
   cool_player: Player;
   gamePanel = [];
   pointCards: Card[];
+  cloudName = Constants.cloudName;
 
   constructor(private cardService: CardService,
               private playerService: PlayerService,
@@ -35,6 +36,11 @@ export class GameComponent {
               ) { dragulaService.drop.subscribe((value) => {
                     this.onDrop(value);
                   });
+
+                  dragulaService.drag.subscribe((value) => {
+                    this.onDrag(value)
+                  });
+
 
                   dragulaService.setOptions('bag-one', {
                     revertOnSpill: true,
@@ -47,13 +53,18 @@ export class GameComponent {
                   });
                 }
 
+  private onDrag(args) {
+    let [e, el] = args;
+    el.classList.remove('resize')
+  }
+
   private onAccept(el, target) {
     return !(this[target.id] && (this[target.id].userId == this.current_player.id || this[target.id].status == 'in-game') || ((this.current_player == this.judge) && this.current_player.cards.length < Constants.cardsOnHands))
   }
 
   private noMove(el) {
     let droppableCard = this.cardService.getCard(this.cards, el.dataset.id);
-    return !(droppableCard == this.mainPanel && !droppableCard.userId || droppableCard.userId !== this.current_player.id);
+    if (droppableCard) return !(droppableCard == this.mainPanel && !droppableCard.userId || droppableCard.userId !== this.current_player.id);
   }
 
   private onDrop(args) {
@@ -160,5 +171,7 @@ export class GameComponent {
     }
   }
 
-
+  resize = (event) => {
+    event.target.parentElement.classList.toggle('resize')
+  }
 }

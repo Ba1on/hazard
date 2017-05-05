@@ -1,8 +1,12 @@
-<button (click)="clearAll()" class="reload-icon btn">
-  <img src="assets/images/reload-icon.png">
-</button>
+<div class="reload-btn">
+  <button (click)="gameService.clearAll()" class="reload-icon btn">
+    <cl-image public-id="reload-icon_s9zcpo" cloud-name="{{cloudName}}" class="cl-image" height='50'></cl-image>
+  </button>
+</div>
 <div *ngIf="!gameIsOn" class="play-container">
   <players></players>
-  <button (click)="startGame()" class="play-btn btn"><img src="assets/images/Game-start.png"></button>
+  <button (click)="startGame()" class="play-btn btn">
+    <cl-image public-id="Game-start_kchept" cloud-name="{{cloudName}}" class="cl-image" height='200'></cl-image>
+  </button>
 </div>
 <game *ngIf="gameIsOn"></game>

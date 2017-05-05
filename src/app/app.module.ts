@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { CoolStorageModule } from 'angular2-cool-storage';
+import { Ng2CloudinaryModule } from 'ng2-cloudinary';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -28,7 +29,8 @@ import { GameService } from './game/game.service';
     HttpModule,
     AppRoutingModule,
     DragulaModule,
-    CoolStorageModule
+    CoolStorageModule,
+    Ng2CloudinaryModule
   ],
   providers: [PlayerService, CardService, GameService],
   bootstrap: [AppComponent]

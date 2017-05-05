@@ -1,6 +1,8 @@
 <div class="players">
   <div *ngFor="let player of players" class="player" [ngClass]="{'active-player': player == current_player}">
-    <div *ngIf="player == judge" class="player-judge"><img src="assets/images/judge.png"></div>
+    <div *ngIf="player == judge" class="player-judge">
+      <cl-image public-id="judge_ab5qos" cloud-name="{{cloudName}}" class="cl-image" height="50"></cl-image>
+    </div>
     <span>{{player.name}} - </span>
     <span>{{player.points}}</span>
   </div>
@@ -9,48 +11,63 @@
 <div class="card-panel-wrapper">
   <div class="card-panel container" [dragula]='"bag-one"' id="leftPanel">
     <div class="card" *ngIf="leftPanel && (leftPanel.userId == current_player.id || leftPanel.status == 'in-game')" [attr.data-id]="leftPanel.id">
-      <img src="{{leftPanel.url}}">
+      <cl-image public-id="{{leftPanel.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
     </div>
     <div class="review-cards" *ngIf="current_player == judge && pointCards.slice(-1)[0] == leftPanel">
-      <div class="card" *ngFor="let card of pointCards"  (click)="coolCard = card"><img src="{{card.url}}"></div>
-      <button *ngIf="coolCard" (click)="setPoint(coolCard)">lol</button>
+      <div class="cards-list">
+        <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card" [ngClass]="{'active': card == coolCard}">
+          <cl-image public-id="{{card.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
+        </div>
+      </div>
+      <button *ngIf="coolCard" (click)="setPoint(coolCard)" class="lol-btn btn">
+        LoL
+      </button>
     </div>
 
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="mainPanel">
-    <div class="card" *ngIf="mainPanel" [attr.data-id]="mainPanel.id"><img src="{{mainPanel.url}}"></div>
+    <div class="card" *ngIf="mainPanel" [attr.data-id]="mainPanel.id">
+      <cl-image public-id="{{mainPanel.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
+    </div>
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="rightPanel">
     <div class="card" *ngIf="rightPanel && (rightPanel.userId == current_player.id || rightPanel.status == 'in-game')" [attr.data-id]='rightPanel.id'>
-      <img src="{{rightPanel.url}}">
+      <cl-image public-id="{{rightPanel.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
     </div>
 
     <div class="review-cards" *ngIf="current_player == judge && pointCards.slice(-1)[0] == rightPanel">
-      <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card"><img src="{{card.url}}"></div>
-      <button *ngIf="coolCard" (click)="setPoint(coolCard)">lol</button>
+      <div class="cards-list">
+        <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card" [ngClass]="{'active': card == coolCard}">
+          <cl-image public-id="{{card.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
+        </div>
+      </div>
+      <button *ngIf="coolCard" (click)="setPoint(coolCard)" class="lol-btn btn">LoL</button>
     </div>
-
   </div>
 </div>
 
 <div class="next-btn-wrapper">
-  <button *ngIf="letPlay()" (click)="nexPlayer()" class="btn next-btn"><img src="assets/images/next-icon.png"></button>
+  <button *ngIf="letPlay()" (click)="nexPlayer()" class="btn next-btn">
+    <cl-image public-id="next-icon_ezseai" cloud-name="{{cloudName}}" class="cl-image" height="50"></cl-image>
+  </button>
 </div>
 
 <div *ngIf="current_player">
   <span class="current-name">{{current_player.name}}</span>
   <div class="cards" [dragula]='"bag-one"' >
     <div *ngFor="let card of current_player.cards" [attr.data-id]="card.id" class="card">
-      <img src="{{card.url}}">
+      <div class="loupe-icon" (click)="resize($event)"></div>
+      <cl-image public-id="{{card.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
     </div>
   </div>
-</div> 
+</div>
 
 <div class="win-wrapper" *ngIf="cool_player">
   <div class="win">
-    <span>{{cool_player.name}} win!</span>
-    <span>Продолжить?</span>
-    <button (click)="cool_player = !cool_player">Да</button>
-    <button (click)="clearAll()">В жопу</button>
+    <h1 class="win-name">{{cool_player.name}} win!</h1>
+    <div class="win-animation-wrapper">
+      <img src="assets/images/win.gif" class="win-animation">
+    </div>
+    <button class="win-btn btn" (click)="gameService.clearAll()">Начать заново</button>
   </div>
 </div>
