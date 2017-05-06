@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
-import { Constants } from '../constants'
+import { NotificationsService } from 'angular2-notifications';
+import { Constants } from '../constants';
 import _ from "lodash";
 
 import { Card } from '../card/card';
@@ -32,7 +33,8 @@ export class GameComponent {
   constructor(private cardService: CardService,
               private playerService: PlayerService,
               private gameService: GameService,
-              private dragulaService: DragulaService
+              private dragulaService: DragulaService,
+              private notificationsService: NotificationsService
               ) { dragulaService.drop.subscribe((value) => {
                     this.onDrop(value);
                   });
@@ -44,10 +46,12 @@ export class GameComponent {
 
                   dragulaService.setOptions('bag-one', {
                     revertOnSpill: true,
-                     accepts: (el, target, source, sibling) => {
+                    accepts: (el, target, source, sibling) => {
+                      if (!this.onAccept(el, target)) notificationsService.error('Алярма!','Донт ду ит!!11')
                       return this.onAccept(el, target)
                     },
                     moves: (el, container, handle) => {
+                      if (!this.noMove(el)) notificationsService.error('Алярма!','Донт тач ит!!11')
                       return this.noMove(el)
                     }
                   });
@@ -77,6 +81,14 @@ export class GameComponent {
     }
     this[sourse.id] = null
     this.gameService.setSomethToLs(this[sourse.id], sourse.id)
+
+    let panel = [this.leftPanel, this.mainPanel, this.rightPanel]
+    if (this.current_player == this.judge && panel.filter(Boolean).length == 3) {
+      this.notificationsService.info(
+        'Вы можете добавить только одну карту. Пожалуйста, уберите лишнюю'
+      )
+    }
+
   }
 
   letPlay = () => {

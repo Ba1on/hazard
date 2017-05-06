@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { CoolStorageModule } from 'angular2-cool-storage';
 import { Ng2CloudinaryModule } from 'ng2-cloudinary';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -29,7 +31,9 @@ import { GameService } from './game/game.service';
     AppRoutingModule,
     DragulaModule,
     CoolStorageModule,
-    Ng2CloudinaryModule
+    Ng2CloudinaryModule,
+    BrowserAnimationsModule,
+    SimpleNotificationsModule.forRoot()
   ],
   providers: [PlayerService, CardService, GameService],
   bootstrap: [AppComponent]
