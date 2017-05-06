@@ -16,7 +16,6 @@ import { PlayerService } from './player/player.service';
 import { CardService } from './card/card.service';
 import { GameService } from './game/game.service';
 
-
 @NgModule({
   declarations: [
     AppComponent,

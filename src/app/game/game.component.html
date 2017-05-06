@@ -11,11 +11,13 @@
 <div class="card-panel-wrapper">
   <div class="card-panel container" [dragula]='"bag-one"' id="leftPanel">
     <div class="card" *ngIf="leftPanel && (leftPanel.userId == current_player.id || leftPanel.status == 'in-game')" [attr.data-id]="leftPanel.id">
+      <div class="loupe-icon" (click)="resize($event)"></div>
       <cl-image public-id="{{leftPanel.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
     </div>
     <div class="review-cards" *ngIf="current_player == judge && pointCards.indexOf(leftPanel) > -1">
       <div class="cards-list">
         <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card" [ngClass]="{'active': card == coolCard}">
+          <div class="loupe-icon" (click)="resize($event)"></div>
           <cl-image public-id="{{card.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
         </div>
       </div>
@@ -27,17 +29,20 @@
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="mainPanel">
     <div class="card" *ngIf="mainPanel" [attr.data-id]="mainPanel.id">
+      <div class="loupe-icon" (click)="resize($event)"></div>
       <cl-image public-id="{{mainPanel.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
     </div>
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="rightPanel">
     <div class="card" *ngIf="rightPanel && (rightPanel.userId == current_player.id || rightPanel.status == 'in-game')" [attr.data-id]='rightPanel.id'>
+      <div class="loupe-icon" (click)="resize($event)"></div>
       <cl-image public-id="{{rightPanel.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
     </div>
 
     <div class="review-cards" *ngIf="current_player == judge && pointCards.indexOf(rightPanel) > -1">
       <div class="cards-list">
         <div class="card" *ngFor="let card of pointCards" (click)="coolCard = card" [ngClass]="{'active': card == coolCard}">
+          <div class="loupe-icon" (click)="resize($event)"></div>
           <cl-image public-id="{{card.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
         </div>
       </div>
@@ -64,7 +69,7 @@
 
 <div class="win-wrapper" *ngIf="cool_player">
   <div class="win">
-    <h1 class="win-name">{{cool_player.name}} win!</h1>
+    <h1 class="win-name">Наш победитель - {{cool_player.name}}!</h1>
     <div class="win-animation-wrapper">
       <img src="assets/images/win.gif" class="win-animation">
     </div>

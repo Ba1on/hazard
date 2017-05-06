@@ -26,6 +26,7 @@ export class GameService {
   }
 
   next = (myArray, item, itemName) => {
+    myArray = _.sortBy(myArray, function(o) { return o.id; })
     let player;
     if (_.last(myArray) == item){
       player = _.first(myArray)
@@ -48,6 +49,13 @@ export class GameService {
   clearAll(): void {
     this.localStorage.clear();
     location.reload()
+  }
+
+  returnCardToPlayer = (players, card) => {
+    let player = this.playerService.getPlayer(players, card.userId);
+    card.status = 'on-hands';
+    this.cardService.update(card);
+    player.cards.push(card);
   }
 
 }

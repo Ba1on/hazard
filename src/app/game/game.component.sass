@@ -131,8 +131,8 @@
     margin-top: -7px
 .card-panel
   .card.resize
-    height: 193px
-    max-width: 130px
+    height: 193px !important
+    max-width: 130px !important
     left: 45%
 .card-panel
   .review-cards
@@ -141,14 +141,15 @@
     flex-wrap: wrap
     text-align: center
     .cards-list
-      overflow: overlay
+      overflow-y: scroll
+      overflow-x: hidden
       height: 100%
       .card
         position: relative
         width: inherit
         height: 100%
         flex-basis: 100%
-        max-width: 100%
+        max-width: 260px
         margin-bottom: 10px
 
 .lol-btn

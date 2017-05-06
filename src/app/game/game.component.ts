@@ -133,37 +133,35 @@ export class GameComponent {
   }
 
   nextRound = () => {
+    this.gameService.returnCardToPlayer(this.players, this.coolCard)
     this.cool_player = _.find(this.players, (player) => { return player.points == Constants.maxPoints});
-    if (this.cool_player) {
-      return;
-    }else{
-      this.judge = this.gameService.next(this.players, this.judge, 'judge');
-      this.current_player = this.gameService.next(this.players, this.current_player, 'current_player');
-      let cardOutage = _.filter(this.cards, (card) => { return card.status == 'review' || card.status == 'in-game'});
-      cardOutage.forEach((card) => {
-        card.status = 'card-outage';
-        this.cardService.update(card);
-      })
-      this.gameService.passCards(this.players, this.cards);
-      this.leftPanel = this.mainPanel = this.rightPanel = this.coolCard = null;
-      Constants.panels.forEach( panel => this[panel] = this.gameService.setSomethToLs(null, panel))
-      this.pointCards = [];
-      this.createMainPanel(this.cards)
-    }
+    this.judge = this.gameService.next(this.players, this.judge, 'judge');
+    this.current_player = this.gameService.next(this.players, this.current_player, 'current_player');
+    let cardOutage = _.filter(this.cards, (card) => { return card.status == 'review' || card.status == 'in-game'});
+    cardOutage.forEach((card) => {
+      card.status = 'card-outage';
+      this.cardService.update(card);
+    })
+    this.gameService.passCards(this.players, this.cards);
+    this.leftPanel = this.mainPanel = this.rightPanel = this.coolCard = null;
+    Constants.panels.forEach( panel => this[panel] = this.gameService.setSomethToLs(null, panel))
+    this.pointCards = [];
+    this.createMainPanel(this.cards);
   }
 
   nexPlayer = () => {
     let droppedCard = this.droppedCard || this.cardService.getPanelToLs(this.cards, 'droppedCard')
     let panelName = this.gameService.panelName(droppedCard, this.leftPanel, this.rightPanel)
     if (this.current_player == this.judge){
-      this[panelName].status = 'in-game'
+      droppedCard = [this.leftPanel, this.rightPanel].filter(Boolean)[0];
+      panelName = this.gameService.panelName(droppedCard, this.leftPanel, this.rightPanel);
+      this[panelName].status = 'in-game';
     }else {
-      this[panelName].status = 'review'
+      this[panelName].status = 'review';
     }
-    this.cardService.update(this[panelName])
+    this.cardService.update(this[panelName]);
     this.current_player.cards = this.current_player.cards.filter((card) => {return card.id !== droppedCard.id})
     this.playerService.update(this.current_player)
-
     let cardsCount = this.current_player.cards.length;
     this.current_player = this.gameService.next(this.players, this.current_player, 'current_player');
     if (this.current_player == this.judge && cardsCount < Constants.cardsOnHands){

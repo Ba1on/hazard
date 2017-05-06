@@ -1,5 +1,5 @@
 export class Constants {
-  public static cardsOnHands = 3;
+  public static cardsOnHands = 7;
   public static maxPoints = 3;
   public static panels = ['leftPanel', 'mainPanel', 'rightPanel'];
   public static cloudName = 'dt0eubx7s';

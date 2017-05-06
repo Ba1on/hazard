@@ -1,7 +1,11 @@
 <div class="reload-btn">
+  <a href="#" (click)="showRules = !showRules">Правила</a>
   <button (click)="gameService.clearAll()" class="reload-icon btn">
     <cl-image public-id="reload-icon_s9zcpo" cloud-name="{{cloudName}}" class="cl-image" height='50'></cl-image>
   </button>
+  <div *ngIf="showRules" class="hazard-rules" (click)="showRules = !showRules">
+    <cl-image public-id="rules_gtjk1g" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
+  </div>
 </div>
 <div *ngIf="!gameIsOn" class="play-container">
   <players></players>
