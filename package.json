@@ -1,19 +1,21 @@
 {
-  "name": "hazard",
+  "name": "joking_hazard_balon",
   "version": "0.0.0",
   "license": "MIT",
+  "angular-cli": {},
   "scripts": {
-    "ng": "ng",
-    "start": "webpack-dev-server --port=4200",
-    "build": "webpack",
-    "test": "karma start ./karma.conf.js",
-    "lint": "ng lint",
-    "e2e": "protractor ./protractor.conf.js",
-    "prepree2e": "npm start",
-    "pree2e": "webdriver-manager update --standalone false --gecko false --quiet"
+    "start": "http-server",
+    "lint": "tslint \"src/**/*.ts\"",
+    "test": "ng test",
+    "pree2e": "webdriver-manager update",
+    "e2e": "protractor",
+    "preinstall": "npm install -g http-server",
+    "postinstall": "ng build && mv dist/* ."
   },
   "private": true,
   "dependencies": {
+    "@angular/cli": "1.0.0",
+    "@angular/animations": "^4.0.0",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/core": "^4.0.0",
@@ -27,14 +29,12 @@
     "angular2-cool-storage": "^3.0.1",
     "angular2-notifications": "^0.7.3",
     "core-js": "^2.4.1",
+    "express": "^4.15.2",
     "ng2-cloudinary": "^0.9.2",
     "ng2-dragula": "^1.3.1",
     "rxjs": "^5.1.0",
     "web-animations-js": "^2.2.5",
-    "zone.js": "^0.8.4"
-  },
-  "devDependencies": {
-    "@angular/cli": "1.0.0",
+    "zone.js": "^0.8.4",
     "@angular/compiler-cli": "^4.0.0",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
@@ -70,5 +70,11 @@
     "style-loader": "^0.13.1",
     "stylus-loader": "^2.4.0",
     "url-loader": "^0.5.7"
+  },
+  "engines": {
+    "node": "6.9.2",
+    "npm": "3.10.9"
+  },
+  "devDependencies": {
   }
 }

@@ -33,6 +33,10 @@ img {
   width: 100%;
 }
 
+.review-cards .cards-list .card .cl-image img {
+
+}
+
 .hazard-rules {
   position: absolute;
   width: 100%;

@@ -47,11 +47,11 @@ export class GameComponent {
                   dragulaService.setOptions('bag-one', {
                     revertOnSpill: true,
                     accepts: (el, target, source, sibling) => {
-                      if (!this.onAccept(el, target)) notificationsService.error('Алярма!','Донт ду ит!!11')
+                      // if (!this.onAccept(el, target)) notificationsService.error('Алярма!','Донт ду ит!!11')
                       return this.onAccept(el, target)
                     },
                     moves: (el, container, handle) => {
-                      if (!this.noMove(el)) notificationsService.error('Алярма!','Донт тач ит!!11')
+                      // if (!this.noMove(el)) notificationsService.error('Алярма!','Донт тач ит!!11')
                       return this.noMove(el)
                     }
                   });
