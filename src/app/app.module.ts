@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, enableProdMode } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +17,8 @@ import { GameComponent } from './game/game.component';
 import { PlayerService } from './player/player.service';
 import { CardService } from './card/card.service';
 import { GameService } from './game/game.service';
+
+enableProdMode();
 
 @NgModule({
   declarations: [
