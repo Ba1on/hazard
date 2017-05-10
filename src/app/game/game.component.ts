@@ -85,7 +85,7 @@ export class GameComponent {
       return this.gamePanel.filter(Boolean).length == 2
     }
     else{
-      return this.gamePanel.filter(Boolean).length == 3
+      return this.gamePanel.filter(Boolean).length == 3 && _.map(this.gamePanel, 'userId').indexOf(this.current_player.id) !== -1
     }
   }
 
