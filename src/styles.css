@@ -33,8 +33,16 @@ img {
   width: 100%;
 }
 
-.review-cards .cards-list .card .cl-image img {
-
+.card-panel .card.one-card img {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  max-width: 90%;
+  height: initial;
+  max-height: 100%;
 }
 
 .hazard-rules {

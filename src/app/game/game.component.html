@@ -10,7 +10,7 @@
 
 <div class="card-panel-wrapper">
   <div class="card-panel container" [dragula]='"bag-one"' id="leftPanel">
-    <div class="card" *ngIf="leftPanel && (leftPanel.userId == current_player.id || leftPanel.status == 'in-game')" [attr.data-id]="leftPanel.id">
+    <div class="card one-card" *ngIf="leftPanel && (leftPanel.userId == current_player.id || leftPanel.status == 'in-game')" [attr.data-id]="leftPanel.id">
       <div class="loupe-icon" (click)="resize($event)"></div>
       <cl-image public-id="{{leftPanel.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
     </div>
@@ -28,13 +28,13 @@
 
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="mainPanel">
-    <div class="card" *ngIf="mainPanel" [attr.data-id]="mainPanel.id">
+    <div class="card one-card" *ngIf="mainPanel" [attr.data-id]="mainPanel.id">
       <div class="loupe-icon" (click)="resize($event)"></div>
       <cl-image public-id="{{mainPanel.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
     </div>
   </div>
   <div class="card-panel" [dragula]='"bag-one"' id="rightPanel">
-    <div class="card" *ngIf="rightPanel && (rightPanel.userId == current_player.id || rightPanel.status == 'in-game')" [attr.data-id]='rightPanel.id'>
+    <div class="card one-card" *ngIf="rightPanel && (rightPanel.userId == current_player.id || rightPanel.status == 'in-game')" [attr.data-id]='rightPanel.id'>
       <div class="loupe-icon" (click)="resize($event)"></div>
       <cl-image public-id="{{rightPanel.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
     </div>
@@ -60,7 +60,7 @@
 <div *ngIf="current_player">
   <span class="current-name">{{current_player.name}}</span>
   <div class="cards" [dragula]='"bag-one"' >
-    <div *ngFor="let card of current_player.cards" [attr.data-id]="card.id" class="card">
+    <div *ngFor="let card of current_player.cards" [attr.data-id]="card.id" class="card one-card">
       <div class="loupe-icon" (click)="resize($event)"></div>
       <cl-image public-id="{{card.id}}" cloud-name="{{cloudName}}" class="cl-image"></cl-image>
     </div>
